@@ -1,13 +1,34 @@
-import React from "react";
-import { Star, BookOpen } from "lucide-react";
-import "./index.css";
-import card from "./components/card";
-function App() {
-  return (
-    <div className="parent">
-        <card/>
-    </div>
-  );
-}
+import { useState, useEffect } from "react";
+import { getBooks } from "./api/books";
+import Card from "./components/Card";
 
+function App() {
+
+    const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+
+        const fetchBooks = async () => {
+            const data = await getBooks();
+            setBooks(data);
+        };
+
+        fetchBooks();
+
+    }, []);
+
+    return (
+        <div className="parent">
+
+            {books.map((book) => (
+              console.log(book),
+                <Card
+                    key={book.id}
+                    book={book}
+                />
+            ))}
+
+        </div>
+    );
+}
 export default App;
